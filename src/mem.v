@@ -1,35 +1,34 @@
-module mem (clk, w_data, w_ena, r_ena, r_data, w_addr, r_addr);
+module fifo_mem
+#(
+// Defining parameters
+parameter FIFO_WIDTH = 4,
+          FIFO_DEPTH = 8,//2^3 = 8 entries
+          ADDR_WIDTH = 3
+) 
+(
+  // inputs
+  input wr_clk, wr_en, rd_clk, rd_en,
+  input [ADDR_WIDTH-1:0] wr_addr, rd_addr,
+  input [FIFO_WIDTH-1:0] wr_data,
+  input full,empty,
+  // output
+  output reg [FIFO_WIDTH-1:0] rd_data
+);
+// matrix for memory
+reg [FIFO_WIDTH-1:0] MEM[0:FIFO_DEPTH-1];
 
-// Parameter declarations
-parameter FIFO_WIDTH = 8;
-parameter ADDR_WIDTH = 5;
-parameter FIFO_DEPTH = 2**5;
-
-// Input and output declarations
-input clk;
-input w_ena; // also known as a "Push" signal
-input r_ena; // also known as a "Pop" signal
-input [FIFO_WIDTH-1:0]  w_data;
-input [ADDR_WIDTH-1:0]  w_addr, r_addr;
-output [FIFO_WIDTH-1:0]  r_data;
-reg    [FIFO_WIDTH-1:0]  r_data;
-
-// The register memory
-reg [FIFO_WIDTH-1:0]  MEM[0:FIFO_DEPTH-1];
-
-// Main body: Write when write enable is true and read always
-always @(r_addr) 
+// procedure for writing
+always @(posedge wr_clk) 
 begin
-    r_data = MEM[r_addr];  
-end
-
-// assign r_data = MEM[r_addr];
-
-always @(posedge clk ) 
-begin
-  if (w_ena) begin
-    MEM[w_addr] <= w_data;
+  if(wr_en && !full) begin
+    MEM[wr_addr] <= wr_data;
   end
 end
-
+// procedure for reading
+always @(posedge rd_clk) 
+begin
+  if(rd_en && !empty) begin
+    rd_data <= MEM[rd_addr];
+  end
+end
 endmodule
