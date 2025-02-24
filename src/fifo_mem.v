@@ -1,4 +1,4 @@
-module fifo_mem 
+module tt_um_fifo_mem_luisaya 
 #(
 // Defining parameters
 parameter FIFO_WIDTH = 4,
