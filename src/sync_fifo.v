@@ -1,3 +1,4 @@
+`include "fifo_mem.v"
 module tt_um_sync_fifo_luisaya( clk, rst_n, wr_ena, rd_ena, wr_data, rd_data, full, empty);
 
 // Defining parameters
