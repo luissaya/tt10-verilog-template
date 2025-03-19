@@ -65,8 +65,8 @@ MEM_inst0
 );
 
 // calculus of write/read enable for memory 
-// assign wr_en_mem = !full & wr_ena;
-// assign rd_en_mem = !empty & rd_ena;
+assign wr_en_mem = !full & wr_ena;
+assign rd_en_mem = !empty & rd_ena;
 
 // Generating read and write pointers
 always @(posedge clk ) 
