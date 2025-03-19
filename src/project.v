@@ -22,8 +22,8 @@ module tt_um_sync_fifo_luisaya(
   reg  empty;
 
   // Definig inputs ports
-  assign ui_in[3:0] = wr_data;
-  assign ui_in[5:4] = {wr_ena, rd_ena};
+  assign wr_data = ui_in[3:0];
+  assign {wr_ena, rd_ena} = ui_in[5:4];
 
   // Defining outputs ports 
   assign uo_out[3:0] = rd_data;
